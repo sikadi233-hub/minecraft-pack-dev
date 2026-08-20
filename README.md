@@ -89,6 +89,18 @@ npm run typecheck # tsc --noEmit（tsc 6 兼容；Node 类型用自包含 types/
 npm run check-links  # 核对 README/技能文档里的 http(s) 链接（联网；BROKEN=0 为通过）
 ```
 
+### npm 发布（由用户自行执行）
+
+发布配置已就绪（`repository`/`homepage`/`prepublishOnly` 自检）。**npm 发布由用户自己操作，需要时用户会说明**——不要自动执行 `npm login`/`npm publish`。
+
+用户发布时执行（注意 npm 现在对发布强制浏览器授权，会打印 `https://www.npmjs.com/auth/cli/...` 链接，浏览器点确认后完成）：
+
+```sh
+npm publish --registry=https://registry.npmjs.org
+```
+
+版本号发布前需人工 bump（`npm version patch` 等）。
+
 ## Known Limitations
 
 - pack_format 数值以 2026-08 核对为准：老线/1.20 线为长期稳定值；**26.2=84 按 MoonLight 一手记录（Wiki 范围 75–84）**；26.x 生态仍在变化，客户端报 "made for a newer version" 时以 Wiki 为准更新 `lib/pack-format.js` 与 pack-format-matrix.md。
