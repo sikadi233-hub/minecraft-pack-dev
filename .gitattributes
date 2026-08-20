@@ -1,0 +1,7 @@
+# 全仓库强制 LF：资源包工具对 CRLF 敏感（v14 教训），文本统一 LF
+* text=auto eol=lf
+
+# 二进制保持原样
+*.png binary
+*.zip binary
+*.ogg binary
