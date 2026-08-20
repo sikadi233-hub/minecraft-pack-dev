@@ -1,0 +1,8 @@
+# minecraft-pack-dev — minecraft-dev 的通用材质包修复附属插件
+# 与 minecraft-dev 平行安装；两个插件实例：技能（5 个按需加载）与工具（3 个）。
+- insert:
+    - id: minecraft-pack-skills
+      name: minecraft-pack-dev/skills
+
+    - id: minecraft-pack-tools
+      name: minecraft-pack-dev/tools

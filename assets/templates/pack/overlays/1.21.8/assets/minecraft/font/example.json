@@ -1,0 +1,13 @@
+{
+  "providers": [
+    {
+      "type": "bitmap",
+      "file": "font/example",
+      "height": 8,
+      "ascent": 7,
+      "chars": [
+        "\uE001"
+      ]
+    }
+  ]
+}

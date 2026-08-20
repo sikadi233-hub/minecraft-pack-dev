@@ -1,0 +1,52 @@
+{
+  "name": "minecraft-pack-dev",
+  "version": "0.1.0",
+  "description": "通用材质包修复技能与工具 for DeepSeek Harness：5 个按需加载技能（pack-core / pack-models / pack-textures / pack-lang / pack-cit）覆盖 MC 1.7.10 ~ 26.x 全时代资源包知识（pack_format 矩阵、CIT/citresewn、物品/方块/实体模型、纹理/GUI/字体、语言文件、音频、分版与分发），3 个工具（mc_pack_scaffold / mc_pack_validate / mc_pack_build）提供资源包项目骨架、全域规则校验（含 latest.log 日志诊断与 analyze 统计）与分版本 zip 组装",
+  "type": "module",
+  "main": "skills.js",
+  "exports": {
+    "./skills": "./skills.js",
+    "./tools": "./tools.js",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "skills.js",
+    "tools.js",
+    "lib",
+    "assets",
+    "scripts",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "plugin": true,
+    "kind": "server",
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "disclosure": {
+    "cloud": false,
+    "network": [],
+    "offlineMode": true,
+    "apiKeys": [],
+    "permissions": {
+      "filesystem": "mc_pack_scaffold writes only under the user-specified targetDir; mc_pack_validate reads only the user-specified packDir; mc_pack_build reads packDir and writes only under the user-specified outDir",
+      "subprocess": "none"
+    },
+    "jurisdiction": [],
+    "retention": "none"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "^0.1.0-rc.5",
+    "@deepseek-ai/dsh-skill": "^0.1.0-rc.5",
+    "@deepseek-ai/schemastery": "^3.18.1"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\"",
+    "typecheck": "tsc --noEmit -p jsconfig.json",
+    "check-links": "node scripts/check-doc-links.mjs"
+  },
+  "license": "MIT"
+}
