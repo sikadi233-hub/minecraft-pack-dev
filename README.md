@@ -89,15 +89,16 @@ npm run typecheck # tsc --noEmit（tsc 6 兼容；Node 类型用自包含 types/
 npm run check-links  # 核对 README/技能文档里的 http(s) 链接（联网；BROKEN=0 为通过）
 ```
 
-### npm 发布（由用户自行执行）
+### npm 发布（用户已授权自动执行）
 
-发布配置已就绪（`repository`/`homepage`/`prepublishOnly` 自检）。**npm 发布由用户自己操作，需要时用户会说明**——不要自动执行 `npm login`/`npm publish`。
+发布配置已就绪（`repository`/`homepage`/`prepublishOnly` 自检）。**发布流程由 agent 自动执行**（用户 2026-08-31 确认"以后都这样发"，与 minecraft-dev 同流程）：
 
-用户发布时执行（注意 npm 现在对发布强制浏览器授权，会打印 `https://www.npmjs.com/auth/cli/...` 链接，浏览器点确认后完成）：
+1. `npm whoami --registry=https://registry.npmjs.org` 确认登录；失效时 `npm login --auth-type=web --registry=https://registry.npmjs.org`（浏览器授权）。
+2. 发布前先 bump 版本（`npm version patch --no-git-tag-version`，改完提交）。
+3. `npm publish --registry=https://registry.npmjs.org`。
+4. `npm view <name> version` 验证（npm 处理有几分钟延迟）。
 
-```sh
-npm publish --registry=https://registry.npmjs.org
-```
+已知坑（同 minecraft-dev，2026-08-31 实测）：token 过期 → `404 PUT`（不是网络问题，重新 web 登录）；版本已 staged → `409 Cannot publish over previously staged version`（bump 或等待过期）；浏览器授权 URL 只在真实 TTY 显示。
 
 版本号发布前需人工 bump（`npm version patch` 等）。
 
