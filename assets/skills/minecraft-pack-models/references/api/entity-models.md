@@ -1,6 +1,6 @@
 # 实体模型与盔甲层：玩家头、CEM、TypeArmor
 
-> 核对日期：2026-08。玩家头案来自 MoonLight v14 实测。
+> 核对日期：2026-09（数值/生态）；玩家头案来自 MoonLight v14 实测（26.2 时代）。pack_format 数值查 minecraft-pack-core 的 pack-format-matrix.md。
 
 ## 1. 玩家头实体模型（v14 完整案）
 
@@ -16,7 +16,7 @@
 
 - 目录：`assets/minecraft/optifine/cem/` 或旧式 `custom/`。
 - 文件：`.properties`（模型/动画绑定）+ 模型文件（旧 .jpm / 新 json）。
-- CEM 是 OptiFine 专属（citresewn 对 CEM 支持有限）——26.2 时代优先确认客户端前端是否支持。
+- CEM 是 OptiFine 专属（citresewn 对 CEM 支持有限）——26.x 时代优先确认客户端前端是否支持（26.3 上 OptiFine/citresewn 是否可用**未核对**，与 CIT 前端同样存在缺口风险）。
 
 ## 3. 盔甲层（TypeArmor）
 

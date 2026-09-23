@@ -1,8 +1,8 @@
 # 资源包基础与排障（minecraft-pack-core）
 
 > 前置：无。构建/Java 问题加载 minecraft-java-build；模型/纹理/CIT/语言细节分别加载 minecraft-pack-models / minecraft-pack-textures / minecraft-pack-cit / minecraft-pack-lang。
-> **铁律：pack_format 等数值一律查 `references/api/pack-format-matrix.md`（本技能唯一事实表），禁止凭记忆写。** 参考里标注「verify」的数值，用 web 工具核对 Minecraft Wiki 后再用。
-> 核对日期：2026-08。26.x 生态仍在变化（NeoForge 26.2 beta、pack_format 84 按用户实测）。
+> **铁律：pack_format 等数值一律查 `references/api/pack-format-matrix.md`（本技能唯一事实表），禁止凭记忆写。** 参考里标注「⚠/verify/UNVERIFIED」的数值，按矩阵里写的来源复核后再用。
+> 核对日期：2026-09。数值来源为各版本 client.jar 内的 `version.json`（`pack_version.resource` / `resource_major`）；26.x 生态仍在变化，26.3 的 CIT 运行时缺失、其余内容域语义见矩阵的 UNVERIFIED 标注。
 
 ## 1. 定位与适用
 
@@ -22,7 +22,7 @@
 ## 3. 四步排障法（v14 实战沉淀）
 
 1. **日志判读**：`<版本目录>/logs/latest.log` 搜 `Missing model` / `Missing texture` / `Cannot compute translucency` / `atlas` 相关行；**忽略无关噪音**（如 [ETF] Entity Texture Features 的报错是另一个模组的，与本包无关）。
-2. **时代核对**：该版本用的是 .lang 还是 .json？lore 条件还能不能匹配（26.2 已死）？items/*.json 有没有（1.21.4+）？→ 全部对照 pack-format-matrix.md。
+2. **时代核对**：该版本用的是 .lang 还是 .json？lore 条件还能不能匹配（组件时代起已死；26.3 连 CIT 前端都还没有）？items/*.json 有没有（1.21.4+）？→ 全部对照 pack-format-matrix.md。
 3. **文件级检查**：CRLF 换行、目录/文件名含空格、items= 逗号分隔、大小写重名、JSON 语法、UV 越界、纹理引用断链——这些 `mc_pack_validate` 一条命令全查。
 4. **数据侧核对**（服务端相关时）：游戏内 `/data get entity @p SelectedItem` 看物品真实组件——**服务端给的数据才是最终裁判**（v14 查出服务端把 Diamond 拼成 Biamond 就是靠这一步）。
 

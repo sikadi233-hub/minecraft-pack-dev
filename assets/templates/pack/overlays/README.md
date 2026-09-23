@@ -7,5 +7,6 @@
 - `overlays/1.21.8/assets/minecraft/blocks/` — 1.21.4+ 方块模型定义
 - `overlays/1.21.8/assets/minecraft/font/` — 1.19.3+ 位图字体
 - `overlays/26.2/...` — citresewn fork 专属调整
+- `overlays/26.3/...` — 26.3 资源包专属调整；注意 CIT 前端截至 2026-09 尚无 26.3 版本
 
 ≤1.12.2 的语言文件无需手工放：构建时自动把 source 的 .json 转换为 .lang（含 .name 键后缀）。

@@ -2,7 +2,7 @@
 
 > 前置：结构/打包问题同时加载 minecraft-pack-core。
 > **铁律：语言文件格式与键约定查 `references/api/lang-formats.md`；服务端字面名边界见 `references/api/localization-guide.md`——这两条是高频翻车区。**
-> 核对日期：2026-08。
+> 核对日期：2026-09（pack_format 数值一律查 minecraft-pack-core 的 pack-format-matrix.md，禁止凭记忆写）。
 
 ## 1. 定位与适用
 
@@ -16,7 +16,7 @@
 | 1.13+ | `.json`（UTF-8 无 BOM） | `assets/minecraft/lang/zh_cn.json`，键 `item.diamond` |
 
 - 键格式差异：老式物品/方块键带 `.name` 后缀（`item.diamond.name`），新式不带（`item.diamond`）；`mc_pack_build` 的 lang 转换自动处理（zh_cn.json → zh_CN.lang 加 .name）。
-- **26.2 原版只有 en_us.json，没有 zh_cn**——中文显示需要语言包补键（v14 中文附属包，79 键起步）。
+- **26.2 原版只有 en_us.json，没有 zh_cn**——中文显示需要语言包补键（v14 中文附属包，79 键起步）。（26.3 是否同样缺 zh_cn 未核对：需查 26.3 client.jar 的 `assets/minecraft/lang/` 目录。）
 
 ## 3. 键完整性
 
@@ -33,7 +33,7 @@
 
 - **`custom_name` / `item_name` 组件是服务端写死的字面文本，资源包语言文件无法翻译它们**（语言文件只翻译 `item.*`/`block.*`/`entity.*` 等**键**）。
 - 服务端物品（MMOItems 的 MMOITEMS_NAME 等）显示中文 = **改服务端配置**（改名后 `reload`），资源包侧唯一能做的是匹配它们的字面名（CIT 条件）。
-- v14 实证：26.2 上 "Blue Biamond Boots" 这类服务端拼写错误，客户端条件永远匹配不上——改服务端或改条件双通道兼容（见 minecraft-pack-cit 案例库）。
+- v14 实证：26.2 上 "Blue Biamond Boots" 这类服务端拼写错误，客户端条件永远匹配不上——改服务端或改条件双通道兼容（见 minecraft-pack-cit 案例库）。该结论与版本无关，26.x 后续版本同样成立。
 
 ## 6. 工具联动
 

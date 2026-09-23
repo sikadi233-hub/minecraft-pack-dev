@@ -1,6 +1,6 @@
 # 语言文件格式全表与转换规则
 
-> 核对日期：2026-08。
+> 核对日期：2026-09（数值/生态）。pack_format 数值查 minecraft-pack-core 的 pack-format-matrix.md。
 
 ## 1. 格式断代
 
@@ -10,7 +10,7 @@
 | 1.13+ | `.json` | `assets/minecraft/lang/zh_cn.json` | `{"键": "值"}`（UTF-8 无 BOM） |
 
 - 语言文件按客户端语言自动选择：en_us / zh_cn / ja_jp …；缺失回退 en_us。
-- **26.2 原版只有 en_us.json，没有 zh_cn**——中文显示需要语言包补键。
+- **26.2 原版只有 en_us.json，没有 zh_cn**——中文显示需要语言包补键。（26.3 是否同样缺 zh_cn **未核对**——要证实需要 26.3 client.jar 的 `assets/minecraft/lang/` 目录列表；本插件只核对了 26.3 的 pack_version 数值。）
 
 ## 2. 键约定
 

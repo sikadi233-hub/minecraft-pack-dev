@@ -1,7 +1,8 @@
 # CIT .properties 语法全表
 
-> 核对日期：2026-08。语法来源：OptiFine CIT 格式 + citresewn（continuation fork）兼容集；
-> 26.2 fork 差异见 citresewn-fork-26.md。
+> 核对日期：2026-09（数值/生态）；语法本体核对于 2026-08。
+> 语法来源：OptiFine CIT 格式 + citresewn（continuation fork）兼容集；
+> 26.x fork 差异（实测止于 26.2）见 citresewn-fork-26.md。pack_format 数值查 minecraft-pack-core 的 pack-format-matrix.md。
 
 ## 1. 文件位置与命名
 
@@ -14,8 +15,8 @@
 | 键 | 语义 | 示例 |
 |---|---|---|
 | `items=` | 目标物品（**空格分隔**，禁逗号） | `items=paper` / `items=diamond_sword netherite_sword` |
-| `nbt.display.Name=` | 显示名匹配（≤1.20.4 可用；26.2 死） | `nbt.display.Name=ipattern:*Moon*` |
-| `nbt.display.Lore.*=` | 描述行匹配（26.2 死） | `nbt.display.Lore.0=ipattern:*xxx*` |
+| `nbt.display.Name=` | 显示名匹配（≤1.20.4 可用；26.x 死） | `nbt.display.Name=ipattern:*Moon*` |
+| `nbt.display.Lore.*=` | 描述行匹配（26.2 实测死；26.3 无前端，UNVERIFIED） | `nbt.display.Lore.0=ipattern:*xxx*` |
 | `components.minecraft\:custom_name=` | **1.20.5+ 组件通道（首选）** | `components.minecraft\:custom_name=ipattern:*Moon*` |
 | `components.minecraft\:item_name=` | 物品名组件通道 | `components.minecraft\:item_name=ipattern:*Moon*` |
 | `damage=` | 耐久百分比条件（unbreakable 上永不成立） | `damage=0-25` |
@@ -42,7 +43,7 @@
 ## 4. 一个完整示例（v14 现代通道）
 
 ```properties
-# 骑士套胸甲（26.2 时代写法）
+# 骑士套胸甲（26.x 时代写法；26.3 需等 fork 更新才有运行时）
 type=item
 items=diamond_chestplate
 texture.0=knight_items/armor/red_chestplate

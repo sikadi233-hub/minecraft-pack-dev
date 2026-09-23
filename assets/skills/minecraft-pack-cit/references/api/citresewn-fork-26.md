@@ -1,10 +1,15 @@
-# citresewn fork（26.2）专属规则
+# citresewn fork（26.x）专属规则
 
-> 核对日期：2026-08。**来源：citresewn-continuation-1.2.2-fork.13+26.2.jar 字节码反编译（javap）+ 游戏内实测**——26.2 + fork 较新，网上无现成文档，以下结论全部来自反编译与实测，可靠性高。
+> 核对日期：2026-09（数值/生态），**实测范围止于 26.2**。
+> **来源：citresewn-continuation-1.2.2-fork.13+26.2.jar 字节码反编译（javap）+ 游戏内实测**——26.2 + fork 较新，网上无现成文档，以下结论全部来自反编译与实测，可靠性高。
+> ⚠ **26.3 无 fork**：cit-resewn-continuation / cit-resewn-fork 截至 2026-09 均无 26.3 版本
+> （来源：Modrinth `api.modrinth.com/v2/search?query=cit resewn`）。所以本文所有结论在 26.3 上
+> **未经实测**，属按 26.2 外推（**UNVERIFIED**）。要证实需要 26.3 版 fork 的字节码反编译 + 实测。
+> pack_format 数值查 minecraft-pack-core 的 pack-format-matrix.md（勿凭记忆写）。
 
 ## 1. 引擎事实
 
-- 引擎：CIT Resewn Continuation fork.13，适配 26.2。
+- 引擎：CIT Resewn Continuation fork.13，适配 26.2。（**无 26.3 版**，见头部警告。）
 - 内置命令：`/citresewn analyze`——输出包内 CIT 加载统计（v14 实测：356 armor + 168 item 属性文件全部加载成功时即通过）。
 - 日志前缀 `[citresewn]`；加载错误（如 items 列表非法）会在日志与 analyze 中可见。
 
@@ -43,3 +48,6 @@
 
 - 26.2 上 OptiFine 的 CEM/着色器支持受限；CIT 主路径是 citresewn fork。
 - 客户端**必须**装 citresewn fork 才能生效——资源包与插件都无法替代客户端模组。
+- **26.3 目前没有任何 CIT 前端可装**（OptiFine 与两个 citresewn 分支都没有 26.3 版本）。
+  26.3 上做 CIT 包只能先做好、等 fork 更新；`mc_pack_validate -targetMc 26.3` 会给
+  `cit-runtime-missing` WARN 提醒这件事（非阻塞）。

@@ -20,7 +20,7 @@ const PROVIDER_NAME = 'minecraft-pack-dev'
 const SKILLS = [
   {
     name: 'minecraft-pack-core',
-    description: 'Resource pack fundamentals across Minecraft 1.7.10 to 26.x: pack.mcmeta and the pack_format matrix (1.7.10=1 through 26.2=84), directory layout and namespaces, the overlay mechanism (1.20.2+), zip and line-ending rules, sounds.json structure, and the four-step troubleshooting method (reading latest.log for Missing model/texture/atlas errors). Use when creating, validating, packaging, or debugging the structure of any resource pack or texture pack.',
+    description: 'Resource pack fundamentals across Minecraft 1.7.10 to 26.x: pack.mcmeta and the pack_format matrix (1.7.10=1 through 26.3=97, verified against each client.jar version.json), directory layout and namespaces, the overlay mechanism (1.20.2+), zip and line-ending rules, sounds.json structure, and the four-step troubleshooting method (reading latest.log for Missing model/texture/atlas errors). Use when creating, validating, packaging, or debugging the structure of any resource pack or texture pack.',
   },
   {
     name: 'minecraft-pack-models',
@@ -36,7 +36,7 @@ const SKILLS = [
   },
   {
     name: 'minecraft-pack-cit',
-    description: 'OptiFine / CIT Resewn custom item display (CIT) for resource packs across MC 1.7.10 to 26.x: .properties syntax (type / items space-separated / texture.X / nbt.* / components.* / ipattern), the condition-channel era matrix (nbt.display.Name/Lore work up to 1.20.4; components.minecraft\\:custom_name and item_name on 1.20.5+; lore matching is dead on the 26.2 citresewn fork), unbreakable silently breaking damage conditions, folder-name and items-list pitfalls, dual-channel sync, plus a MoonLight casebook of real repair cases. Use when fixing or creating CIT item/armor display properties.',
+    description: 'OptiFine / CIT Resewn custom item display (CIT) for resource packs across MC 1.7.10 to 26.x: .properties syntax (type / items space-separated / texture.X / nbt.* / components.* / ipattern), the condition-channel era matrix (nbt.display.Name/Lore work up to 1.20.4; components.minecraft\\:custom_name and item_name on 1.20.5+; lore matching is dead on the 26.2 citresewn fork, and 26.3 has no CIT front-end at all as of 2026-09), unbreakable silently breaking damage conditions, folder-name and items-list pitfalls, dual-channel sync, plus a MoonLight casebook of real repair cases. Use when fixing or creating CIT item/armor display properties.',
   },
 ]
 

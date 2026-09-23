@@ -1,17 +1,19 @@
 # 资源包目录布局、pack.mcmeta 与打包规范
 
-> 核对日期：2026-08。
+> 核对日期：2026-09（pack_format 数值见 `pack-format-matrix.md`，勿在此处另立一份）。
 
 ## 1. pack.mcmeta（包根必需）
 
 ```json
 {
   "pack": {
-    "pack_format": 84,
+    "pack_format": 97,
     "description": "我的资源包"
   }
 }
 ```
+
+（`97` 是 26.3 的值——具体版本查 `pack-format-matrix.md`，不要照抄本示例。）
 
 - `pack_format` 缺失或与客户端版本不符 → 客户端报 "made for a newer version"（过高）或 "out of date"（过低）。
 - description 是文本组件（字符串即可）。

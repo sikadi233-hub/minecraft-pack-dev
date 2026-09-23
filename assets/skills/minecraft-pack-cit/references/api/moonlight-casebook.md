@@ -1,7 +1,11 @@
 # MoonLight 实战案例库（v2–v14）
 
-> 核对日期：2026-08。这是 MoonLight 材质包修复全记录的知识化——**每个结论都来自真实排障**，
+> 核对日期：2026-09（数值/生态）；**案例本体发生在 26.2 时代**，文中出现的 26.2 是历史事实，不改写。
+> 这是 MoonLight 材质包修复全记录的知识化——**每个结论都来自真实排障**，
 > 是 minecraft-pack-* 各技能的实证来源。方法论四步：日志判读 → 时代核对 → 文件级检查 → 数据侧实测。
+> ⚠ **26.3 无 CIT 前端**（cit-resewn-continuation / cit-resewn-fork 截至 2026-09 均无 26.3 版本）：
+> 下文 26.2 的 CIT 结论在 26.3 上**未实测**，属外推（UNVERIFIED）。pack_format 数值查
+> minecraft-pack-core 的 pack-format-matrix.md。
 
 ## 1. 物品显示（最早修复，v2–v7）
 
@@ -60,7 +64,7 @@
 ## 8. 方法论沉淀（给排障者的固定流程）
 
 1. **日志判读**：latest.log 的 [citresewn] 加载错误、Missing model/texture；**[ETF] 报错一律忽略**。
-2. **时代核对**：26.2 + citresewn fork 下 lore 匹配已死、unbreakable 杀 damage、文件夹空格被忽略、items 逗号报错。
+2. **时代核对**：26.2 + citresewn fork 下 lore 匹配已死、unbreakable 杀 damage、文件夹空格被忽略、items 逗号报错；26.3 无 CIT 前端（UNVERIFIED）。
 3. **文件级检查**：CRLF、大小写重名、双通道同步、UV 越界、纹理残缺（字节阈值 + 像素统计）。
 4. **数据侧实测**：`/data get entity @p SelectedItem` = **最终裁判**（服务端拼写/组件真相）。
 
@@ -68,7 +72,7 @@
 
 - MMOItems `BLUE_DIAMOND4` 的 `MMOITEMS_NAME` 改 `"&1Blue Diamond Boots"` 后 `reload mmoitems`。
 - 服务端 custom_name/item_name 是字面文本，资源包翻译不了 → 中文只能服务端改配置。
-- 客户端必须装 citresewn fork（26.2）——资源包/插件无法替代。
+- 客户端必须装 citresewn fork（26.2）——资源包/插件无法替代。（26.3 目前无 fork 可装。）
 
 ## 10. 版本记录（供回归对照）
 

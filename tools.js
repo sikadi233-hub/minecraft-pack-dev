@@ -89,7 +89,7 @@ export function apply(ctx) {
       },
       targetMc: {
         type: 'string',
-        description: `Optional target Minecraft version to enable era rules (e.g. 26.2, 1.12.2); supported: ${SUPPORTED_VERSIONS.join(', ')}.`,
+        description: `Optional target Minecraft version to enable era rules (e.g. 26.3, 1.12.2); supported: ${SUPPORTED_VERSIONS.join(', ')}. Note: 26.3 has no CIT front-end yet (as of 2026-09) — a pack with CIT .properties gets a non-blocking cit-runtime-missing warning.`,
       },
       mode: {
         type: 'string',

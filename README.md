@@ -20,11 +20,11 @@ dsh plugin --profile web add minecraft-dev
 
 | 技能 | 内容 |
 |---|---|
-| `minecraft-pack-core` | 资源包基础与排障：pack_format 全表（1.7.10=1 ~ 26.2=84）、目录布局、overlay、zip/LF 规范、sounds.json、日志判读与四步排障法 |
+| `minecraft-pack-core` | 资源包基础与排障：pack_format 全表（1.7.10=1 ~ 26.3=97，依 client.jar 核对）、目录布局、overlay、zip/LF 规范、sounds.json、日志判读与四步排障法 |
 | `minecraft-pack-models` | 物品/方块/实体/盔甲模型：1.21.4+ items·blocks json、blockstates、OptiFine CIT 模型、玩家头实体模型、TypeArmor 盔甲层、UV 0-16 网格、parent 循环、Blockbench 坑 |
 | `minecraft-pack-textures` | 纹理/GUI/字体/粒子：PNG 规范与残缺检测、动画 .mcmeta、1.20.5+ GUI sprite 拆分、位图字体（1.19.3+）、particles/*.json |
 | `minecraft-pack-lang` | 语言与本地化：.lang ↔ .json 断代与转换、键完整性、中文 zh_cn 附属包、服务端字面名边界（资源包翻译不了的，只能服务端改名） |
-| `minecraft-pack-cit` | CIT 物品显示：.properties 语法、条件通道时代矩阵（26.2 citresewn fork lore 已死、unbreakable 杀 damage）、MoonLight v2–v14 案例库 |
+| `minecraft-pack-cit` | CIT 物品显示：.properties 语法、条件通道时代矩阵（26.2 citresewn fork lore 已死、unbreakable 杀 damage；26.3 尚无 CIT 前端）、MoonLight v2–v14 案例库 |
 
 ### 3 个工具（纯本地文件操作，无网络、无子进程）
 
@@ -69,10 +69,10 @@ dsh plugin --profile web remove minecraft-pack-dev
 发材质包任务时模型自动路由到对应技能（也可手动 `/minecraft-pack-cit` 注入）。对话示例：
 
 ```
-这个资源包在 26.2 上锁链骑士套不生效，帮我查
-帮我校验这个资源包目录：mc_pack_validate D:\packs\moonlight -targetMc 26.2
+这个资源包在 26.3 上锁链骑士套不生效，帮我查
+帮我校验这个资源包目录：mc_pack_validate D:\packs\moonlight -targetMc 26.3
 把 latest.log 的报错映射到包内文件：mc_pack_validate D:\packs\moonlight -mode log -logPath D:\mama\logs\latest.log
-给这个资源包做 1.7.10 到 26.2 的分版：mc_pack_build D:\packs\moonlight
+给这个资源包做 1.7.10 到 26.3 的分版：mc_pack_build D:\packs\moonlight
 新建一个分版资源包项目：mc_pack_scaffold D:\packs\newpack moonlight
 ```
 
@@ -83,10 +83,11 @@ dsh plugin --profile web remove minecraft-pack-dev
 ## 开发
 
 ```sh
-npm test          # 纯函数单测（43 项）。注意：本环境沙箱禁子进程管道，
+npm test          # 纯函数单测（45 项）。注意：本环境沙箱禁子进程管道，
                   # 用 node --test --test-isolation=none 代替默认 runner
 npm run typecheck # tsc --noEmit（tsc 6 兼容；Node 类型用自包含 types/node.d.ts）
 npm run check-links  # 核对 README/技能文档里的 http(s) 链接（联网；BROKEN=0 为通过）
+node scripts/derive-pack-format.mjs   # 重新推导 pack_format 表（需联网，见 Known Limitations）
 ```
 
 ### npm 发布（用户已授权自动执行）
@@ -104,9 +105,13 @@ npm run check-links  # 核对 README/技能文档里的 http(s) 链接（联网�
 
 ## Known Limitations
 
-- pack_format 数值以 2026-08 核对为准：老线/1.20 线为长期稳定值；**26.2=84 按 MoonLight 一手记录（Wiki 范围 75–84）**；26.x 生态仍在变化，客户端报 "made for a newer version" 时以 Wiki 为准更新 `lib/pack-format.js` 与 pack-format-matrix.md。
+- **pack_format 数值（2026-09 核对）**：以各版本 **client.jar 内 `version.json` 的 `pack_version.resource` / `resource_major`** 为准（`resource*` 才是 pack.mcmeta 的 pack_format，`data*` 是数据包格式）。表：1.7.10=1、1.12.2=3、1.16.5=6、1.20.1=15、1.20.2=18、1.20.3=22、1.20.5=32、1.21=34、1.21.2=42、1.21.4=46、1.21.5=55、1.21.6=63、1.21.7=64(推断)、1.21.8=64、1.21.11=75、26.2=88、**26.3=97**。
+  - **0.2.0 修正**：旧表把 1.20.5–1.21.8 的**数据包**格式号当成了资源包格式号（34/48/57/71/75/77/80 全错），26.2 的 84 也来自未经 jar 核对的记录（实际 88），已全部改由 client.jar 核对。
+  - 重新生成：`node scripts/derive-pack-format.mjs`（需联网，首次每版本下载 ~25–40MB client.jar；jar 已缓存时完全离线）。**不接入 `npm test`**（测试保持离线）。
+  - 未验证：1.7.10 / 1.12.2 的 client.jar 无 `version.json`（该字段 1.13 才引入），沿用长期稳定表；1.21.7 的 jar 多次下载被 CDN 截断，按 1.21.8 的 resource=64 推断。
+- **26.3 语义不确定**：本插件只核对了 26.3 的 pack_version 数值。① **CIT 前端（cit-resewn-continuation / cit-resewn-fork）截至 2026-09 均无 26.3 版本** → 26.3 上 CIT 无运行时可依赖，`mc_pack_validate -targetMc 26.3` 会给非阻塞 `cit-runtime-missing` WARN；② items/blocks 模型、GUI sprite 拆分、particles、lang/字体内容域在 26.3 上是否与 26.2 一致**未逐项复核**（标 UNVERIFIED）。
 - PNG 检测 v1 只做结构（签名/IHDR/截断）+ 字节阈值残缺启发式；像素级统计（ArmorHB 202/2048）为 v2。
-- 26.2 物品 registry 全表缺失 → 引用存在性按命名空间分级（非 minecraft 缺失=ERROR，可能指向原版=WARN）。
+- 物品 registry 全表缺失 → 引用存在性按命名空间分级（非 minecraft 缺失=ERROR，可能指向原版=WARN）。
 - 1.20.5+ GUI sprite 拆分、OptiFine 着色器等"需人工核对"项工具不自动判定。
 - 技能 rank 600（bundled）；用户本地同名技能会覆盖本包技能——冲突时删本地同名目录。
 - 与 minecraft-dev 无依赖关系（peer 仅 dsh 运行时四件套）；两插件可分别安装/卸载。

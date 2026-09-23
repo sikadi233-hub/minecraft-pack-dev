@@ -17,8 +17,8 @@ function write(rel, data) {
 function buildFixture() {
   fs.rmSync(ROOT, { recursive: true, force: true })
   fs.mkdirSync(ROOT, { recursive: true })
-  write('pack.config.json', JSON.stringify({ id: 'fixture', versions: ['26.2'], syncGroups: [['cit/a', 'cit/b']], names: ['Blue Diamond Boots'] }))
-  write('pack.mcmeta', '{"pack":{"pack_format":63}}')
+  write('pack.config.json', JSON.stringify({ id: 'fixture', versions: ['26.3'], syncGroups: [['cit/a', 'cit/b']], names: ['Blue Diamond Boots'] }))
+  write('pack.mcmeta', '{"pack":{"pack_format":88}}')
   // lang
   write('assets/minecraft/lang/en_us.json', '{"a":"A","b":"B"}')
   write('assets/minecraft/lang/zh_cn.json', '{"a":"A"}')
@@ -58,13 +58,13 @@ function buildFixture() {
 
 const rules = (report) => new Set(report.issues.map(i => i.rule))
 
-test('validate: 多域夹具全部检出（26.2 时代）', () => {
+test('validate: 多域夹具全部检出（26.3 时代）', () => {
   buildFixture()
-  const report = validatePack({ packDir: ROOT, targetMc: '26.2' })
+  const report = validatePack({ packDir: ROOT, targetMc: '26.3' })
   const rs = rules(report)
   assert.equal(report.ok, false)
-  // 打包
-  assert.ok(rs.has('mcmeta-format'), [...rs].join(',')) // pf 63 vs 84
+  // 打包（pf 88 = 26.2 的值，对 26.3 的 97 不符）
+  assert.ok(rs.has('mcmeta-format'), [...rs].join(','))
   assert.ok(rs.has('crlf'))
   assert.ok(rs.has('space-in-name'))
   // 模型
@@ -88,12 +88,22 @@ test('validate: 多域夹具全部检出（26.2 时代）', () => {
   assert.ok(rs.has('damage-unbreakable'))
   assert.ok(rs.has('sync-mismatch'))
   assert.ok(rs.has('name-dict-hint'))
+  // 26.3 无 CIT 前端运行时 → 非阻塞 WARN（不改变 ok）
+  const noRuntime = report.issues.find(i => i.rule === 'cit-runtime-missing')
+  assert.ok(noRuntime && noRuntime.severity === 'warn', JSON.stringify(report.issues.filter(i => i.rule === 'cit-runtime-missing')))
   const customTex = report.issues.find(i => i.rule === 'texture-missing' && i.severity === 'error')
   assert.ok(customTex && customTex.message.includes('mypack:item/x'))
   // 时代
-  assert.equal(report.era.format, 84)
+  assert.equal(report.era.format, 97)
   assert.equal(report.era.cit, 'citresewn')
   assert.equal(report.stats.citProperties >= 5, true)
+})
+
+test('validate: 26.2 仍可用且有 CIT 运行时（无 cit-runtime-missing）', () => {
+  buildFixture()
+  const report = validatePack({ packDir: ROOT, targetMc: '26.2' })
+  assert.equal(report.era.format, 88)
+  assert.ok(!report.issues.some(i => i.rule === 'cit-runtime-missing'))
 })
 
 test('validate: 无 targetMc 时 lore 降级为 WARN', () => {

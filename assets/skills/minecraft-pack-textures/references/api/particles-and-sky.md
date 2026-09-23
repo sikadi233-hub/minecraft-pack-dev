@@ -25,7 +25,7 @@
 - 自定义天空：`assets/minecraft/optifine/sky/world0/sky_*.properties` + 贴图。
 - 着色器：`shaders/`（GLSL，OptiFine 专属）与 Iris 的 `shaders/` 结构不同。
 - **v1 范围**：只查目录/文件存在性（validate 不覆盖）；GLSL 语法、着色器兼容性不做修复。
-- 26.2：原版有正式渲染管线（延迟渲染），OptiFine 着色器生态受限——确认目标客户端前端再动 shaders。
+- 26.2：原版有正式渲染管线（延迟渲染），OptiFine 着色器生态受限——确认目标客户端前端再动 shaders。（26.3 是否延续**未核对**——需实测/查 26.3 客户端渲染管线，标 UNVERIFIED。）
 
 ## 4. 常见坑
 

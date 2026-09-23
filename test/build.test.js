@@ -11,14 +11,14 @@ const OUT = path.join(ROOT, 'dist')
 
 function makeProject() {
   fs.rmSync(ROOT, { recursive: true, force: true })
-  scaffoldPack({ targetDir: ROOT, packId: 'mypack', versions: ['1.7.10', '1.21.8', '26.2'] })
+  scaffoldPack({ targetDir: ROOT, packId: 'mypack', versions: ['1.7.10', '1.21.8', '26.2', '26.3'] })
 }
 
-test('build: 三时代 zip 产出与内容核对', () => {
+test('build: 四时代 zip 产出与内容核对', () => {
   makeProject()
   const res = buildPack({ packDir: ROOT, outDir: OUT })
   assert.equal(res.ok, true, JSON.stringify(res.errors))
-  assert.equal(res.built.length, 3)
+  assert.equal(res.built.length, 4)
   const byVer = Object.fromEntries(res.built.map(b => [b.version, b]))
 
   // 1.7.10：pf 1、lang 转 .lang 且带 .name 后缀、无 items json、cit 保留
@@ -34,17 +34,21 @@ test('build: 三时代 zip 产出与内容核对', () => {
   assert.ok(![...files1710].some(f => f.includes('/items/')), '1.7.10 不应有 items json')
   assert.ok(files1710.has('cit/example_modern.properties'))
 
-  // 1.21.8：pf 80、lang json 保留、overlay 的 items/font 合并
+  // 1.21.8：pf 64（client.jar SharedConstants i=64）、lang json 保留、overlay 的 items/font 合并
   const z1218 = readZip(fs.readFileSync(byVer['1.21.8'].zipPath))
   const files1218 = new Set(z1218.map(e => e.path))
-  assert.match(z1218.find(e => e.path === 'pack.mcmeta').data.toString('utf8'), /"pack_format": 80/)
+  assert.match(z1218.find(e => e.path === 'pack.mcmeta').data.toString('utf8'), /"pack_format": 64/)
   assert.ok(files1218.has('assets/minecraft/lang/zh_cn.json'))
   assert.ok(files1218.has('assets/minecraft/items/example.json'), [...files1218].join('\n'))
   assert.ok(files1218.has('assets/minecraft/font/example.json'))
 
-  // 26.2：pf 84
+  // 26.2：pf 88（RESOURCE_PACK_FORMAT_MAJOR=88, MINOR=0；不是 84）
   const z262 = readZip(fs.readFileSync(byVer['26.2'].zipPath))
-  assert.match(z262.find(e => e.path === 'pack.mcmeta').data.toString('utf8'), /"pack_format": 84/)
+  assert.match(z262.find(e => e.path === 'pack.mcmeta').data.toString('utf8'), /"pack_format": 88/)
+
+  // 26.3：pf 97（RESOURCE_PACK_FORMAT_MAJOR=97, MINOR=1）
+  const z263 = readZip(fs.readFileSync(byVer['26.3'].zipPath))
+  assert.match(z263.find(e => e.path === 'pack.mcmeta').data.toString('utf8'), /"pack_format": 97/)
 })
 
 test('build: CRLF 源文件被规范化为 LF', () => {
